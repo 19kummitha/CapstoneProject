@@ -23,8 +23,9 @@ namespace AuthenticationAPI.Repository
                     await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
                 if (!await _roleManager.RoleExistsAsync(UserRoles.User))
                     await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-               
-            
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Service))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Service));
+
 
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)

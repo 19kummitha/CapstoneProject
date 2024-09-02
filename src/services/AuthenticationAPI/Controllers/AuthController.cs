@@ -20,7 +20,7 @@ namespace AuthAPI.Controllers
             _registerRepository = registerRepository;
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Service)]
         [HttpGet]
         [Route("Hey")]
         public IActionResult Get()
@@ -51,7 +51,17 @@ namespace AuthAPI.Controllers
             return await _registerRepository.Register(model, roles);
 
         }
+        [HttpPost]
+        [Route("register-service")]
+        public async Task<IActionResult> RegisterService([FromBody] Register model)
+        {
+            string[] roles =
+            [
+                UserRoles.Service
+            ];
+            return await _registerRepository.Register(model, roles);
 
+        }
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
