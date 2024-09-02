@@ -20,7 +20,7 @@ namespace AuthAPI.Controllers
             _registerRepository = registerRepository;
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.ServiceProvider)]
         [HttpGet]
         [Route("Hey")]
         public IActionResult Get()
