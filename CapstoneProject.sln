@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FE920268-93D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{C1BD3E75-65C0-4B2C-8F24-0E45699A1278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationAPI", "src\services\AuthenticationAPI\AuthenticationAPI.csproj", "{44E2A54D-24B1-4342-B941-5543E45D25F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationAPI", "src\services\AuthenticationAPI\AuthenticationAPI.csproj", "{44E2A54D-24B1-4342-B941-5543E45D25F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotAPI", "src\services\OcelotAPI\OcelotAPI.csproj", "{F7386F8B-12B4-42B2-827C-1A06E7D06FE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotAPI", "src\services\OcelotAPI\OcelotAPI.csproj", "{F7386F8B-12B4-42B2-827C-1A06E7D06FE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

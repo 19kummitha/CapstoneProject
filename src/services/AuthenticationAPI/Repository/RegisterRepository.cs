@@ -10,7 +10,6 @@ namespace AuthenticationAPI.Repository
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-       // private static bool initialStatus = true;
         public RegisterRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
@@ -23,8 +22,8 @@ namespace AuthenticationAPI.Repository
                     await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
                 if (!await _roleManager.RoleExistsAsync(UserRoles.User))
                     await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Service))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Service));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.ServiceProvider))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.ServiceProvider));
 
 
             var userExists = await _userManager.FindByNameAsync(model.Username);
