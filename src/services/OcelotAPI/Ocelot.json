@@ -1,0 +1,68 @@
+{
+  "Routes": [
+    {
+      //Downstream
+      "DownStreamPathTemplate": "/api/auth/login",
+      "DownStreamScheme": "http",
+
+      "DownStreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+
+      //UpStream
+      "UpStreamPathTemplate": "/api/gateway/login",
+      "UpStreamHttpMethod": [ "Post" ]
+    },
+    {
+      //Downstream
+      "DownStreamPathTemplate": "/api/auth/register",
+      "DownStreamScheme": "http",
+
+      "DownStreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+
+      //UpStream
+      "UpStreamPathTemplate": "/api/gateway/register",
+      "UpStreamHttpMethod": [ "Post" ]
+    },
+    {
+      //Downstream
+      "DownStreamPathTemplate": "/api/auth/register-admin",
+      "DownStreamScheme": "http",
+
+      "DownStreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+
+      //UpStream
+      "UpStreamPathTemplate": "/api/gateway/register-admin",
+      "UpStreamHttpMethod": [ "Post" ]
+    },
+    {
+      //Downstream
+      "DownStreamPathTemplate": "/api/auth/register-service",
+      "DownStreamScheme": "http",
+
+      "DownStreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+
+      //UpStream
+      "UpStreamPathTemplate": "/api/gateway/register-service",
+      "UpStreamHttpMethod": [ "Post" ]
+    }
+  ]
+}
