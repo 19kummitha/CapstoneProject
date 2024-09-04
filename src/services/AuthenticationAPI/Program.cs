@@ -1,6 +1,7 @@
 using AuthenticationAPI.Contracts;
 using AuthenticationAPI.Data;
 using AuthenticationAPI.Extensions;
+using AuthenticationAPI.Models;
 using AuthenticationAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<Register, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 

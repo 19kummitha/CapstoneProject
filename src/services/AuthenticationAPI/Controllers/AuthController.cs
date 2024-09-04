@@ -19,7 +19,7 @@ namespace AuthAPI.Controllers
             _registerRepository = registerRepository;
         }
 
-        [Authorize(Roles = UserRoles.ServiceProvider)]
+        [Authorize(Roles = UserRoles.User)]
         [HttpGet]
         [Route("Hey")]
         public IActionResult Get()
@@ -30,11 +30,7 @@ namespace AuthAPI.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
-            string[] roles =
-            [
-                UserRoles.User
-            ];
-            return await _registerRepository.Register(model, roles);
+            return await _registerRepository.Register(model);
 
         }
 
@@ -42,23 +38,15 @@ namespace AuthAPI.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] Register model)
         {
-            string[] roles =
-            [
-                UserRoles.Admin,
-                UserRoles.User
-            ];
-            return await _registerRepository.Register(model, roles);
+            return await _registerRepository.RegisterAdmin(model);
 
         }
         [HttpPost]
         [Route("register-service")]
         public async Task<IActionResult> RegisterService([FromBody] Register model)
         {
-            string[] roles =
-            [
-                UserRoles.ServiceProvider
-            ];
-            return await _registerRepository.Register(model, roles);
+         
+            return await _registerRepository.RegisterService(model);
 
         }
         [HttpPost]

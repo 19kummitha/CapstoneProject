@@ -5,6 +5,8 @@ namespace AuthenticationAPI.Contracts
 {
     public interface IRegisterRepository
     {
-        public Task<ActionResult> Register(Register model, params string[] roles);
+        public Task<ActionResult> Register(Register model);
+        public Task<ActionResult> RegisterAdmin(Register model);
+        public Task<ActionResult> RegisterService(Register model);
     }
 }
