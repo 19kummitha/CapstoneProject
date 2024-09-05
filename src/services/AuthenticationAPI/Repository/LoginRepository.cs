@@ -26,7 +26,7 @@ namespace AuthenticationAPI.Repository
             if (user == null)
             {
                 // User not found
-                return Results.NotFound(new
+                return Results.NotFound(new LoginResponse
                 {
                     Status = "Error",
                     Message = "User does not exist. Please register."
@@ -37,7 +37,7 @@ namespace AuthenticationAPI.Repository
             if (!isPasswordValid)
             {
                 // Invalid password
-                return Results.BadRequest (new
+                return Results.BadRequest (new LoginResponse
                 {
                     Status = "Error",
                     Message = "Invalid password. Please check your credentials and try again."
@@ -59,10 +59,13 @@ namespace AuthenticationAPI.Repository
 
             var token = GetToken(authClaims);
 
-            return Results.Ok(new
+            return Results.Ok(new LoginResponse
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiration = token.ValidTo,
+                Roles = userRoles,
+                Status = "Success",
+                Message = "Login successful"
             });
         }
 

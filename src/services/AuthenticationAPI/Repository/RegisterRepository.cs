@@ -22,6 +22,7 @@ namespace AuthenticationAPI.Repository
 
             Register user = new()
             {
+                Email= model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
                 Name=model.Name,
@@ -82,6 +83,7 @@ namespace AuthenticationAPI.Repository
 
             Register user = new()
             {
+                Email=model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
                 Name = model.Name,
