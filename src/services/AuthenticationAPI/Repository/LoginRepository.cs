@@ -23,33 +23,51 @@ namespace AuthenticationAPI.Repository
         public async Task<IResult> Login(Login model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            if (user == null)
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
-
-                var authClaims = new List<Claim>
+                // User not found
+                return Results.NotFound(new
                 {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                }
-
-               var token = GetToken(authClaims);
-
-                return Results.Accepted("",new 
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    Status = "Error",
+                    Message = "User does not exist. Please register."
                 });
             }
-            return Results.Unauthorized();
+
+            bool isPasswordValid = await _userManager.CheckPasswordAsync(user, model.Password);
+            if (!isPasswordValid)
+            {
+                // Invalid password
+                return Results.BadRequest (new
+                {
+                    Status = "Error",
+                    Message = "Invalid password. Please check your credentials and try again."
+                });
+            }
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var authClaims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, user.UserName),
+        // Additional claims
+    };
+
+            foreach (var userRole in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
+
+            var token = GetToken(authClaims);
+
+            return Results.Ok(new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo
+            });
         }
 
-       
+
+
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
