@@ -62,7 +62,8 @@ namespace AuthenticationAPI.Repository
             return Results.Ok(new 
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = token.ValidTo
+                Expiration = token.ValidTo,
+                roles=userRoles
             });
         }
 
