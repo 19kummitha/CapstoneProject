@@ -45,10 +45,10 @@ namespace AuthAPI.Controllers
         [Route("register-service")]
         public async Task<IActionResult> RegisterService([FromBody] Register model)
         {
-         
             return await _registerRepository.RegisterService(model);
 
         }
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] Login model)

@@ -27,7 +27,6 @@ namespace AuthenticationAPI.Repository
                 UserName = model.UserName,
                 Name=model.Name,
                 FlatNo=model.FlatNo,
-                ServiceType=""
             };
             var result = await _userManager.CreateAsync(user, model.PasswordHash);
             if (!result.Succeeded)
@@ -47,19 +46,18 @@ namespace AuthenticationAPI.Repository
             if (userExists != null)
                 return new BadRequestObjectResult(new Response { Status = "Error", Message = "Admin is already registered!!" });
 
-            Register user = new ()
+            Register user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
                 Name = model.Name,
-                FlatNo = "",
-                ServiceType = ""
+                FlatNo = ""
             };
 
             var result = await _userManager.CreateAsync(user, model.PasswordHash);
             if (!result.Succeeded)
-                return new BadRequestObjectResult(new  Response { Status = "Error", Message = "Admin Registration failed!!" });
+                return new BadRequestObjectResult(new Response { Status = "Error", Message = "Admin Registration failed!!" });
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
@@ -83,16 +81,15 @@ namespace AuthenticationAPI.Repository
 
             Register user = new()
             {
-                Email=model.Email,
+                Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
                 Name = model.Name,
-                FlatNo = "",
-                ServiceType = ""
+                FlatNo = ""
             };
             var result = await _userManager.CreateAsync(user, model.PasswordHash);
             if (!result.Succeeded)
-                return new BadRequestObjectResult(new Response { Status = "Error", Message = "Register ServiceProvider creation failed! Please check user details and try again." });
+                return new BadRequestObjectResult(new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.ServiceProvider))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.ServiceProvider));
@@ -100,8 +97,7 @@ namespace AuthenticationAPI.Repository
             if (await _roleManager.RoleExistsAsync(UserRoles.ServiceProvider))
                 await _userManager.AddToRoleAsync(user, UserRoles.ServiceProvider);
 
-            return new OkObjectResult(new Response { Status = "Success", Message = "ServiceProvider Registered successfully!" });
+            return new OkObjectResult(new Response { Status = "Success", Message = "Service Provider created successfully!" });
         }
-
     }
 }
