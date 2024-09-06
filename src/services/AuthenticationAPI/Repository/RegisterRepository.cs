@@ -27,6 +27,8 @@ namespace AuthenticationAPI.Repository
                 UserName = model.UserName,
                 Name=model.Name,
                 FlatNo=model.FlatNo,
+                ServiceType="",
+                PhoneNumber=model.PhoneNumber,
             };
             var result = await _userManager.CreateAsync(user, model.PasswordHash);
             if (!result.Succeeded)
@@ -52,7 +54,9 @@ namespace AuthenticationAPI.Repository
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
                 Name = model.Name,
-                FlatNo = ""
+                FlatNo = "",
+                ServiceType="",
+                PhoneNumber= model.PhoneNumber
             };
 
             var result = await _userManager.CreateAsync(user, model.PasswordHash);
@@ -85,7 +89,9 @@ namespace AuthenticationAPI.Repository
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
                 Name = model.Name,
-                FlatNo = ""
+                FlatNo = "",
+                ServiceType="",
+                PhoneNumber= model.PhoneNumber,
             };
             var result = await _userManager.CreateAsync(user, model.PasswordHash);
             if (!result.Succeeded)

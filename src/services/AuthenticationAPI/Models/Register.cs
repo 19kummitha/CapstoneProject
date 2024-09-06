@@ -7,5 +7,6 @@ namespace AuthenticationAPI.Models
     {
         public string? FlatNo { get; set; }
         public string? Name { get; set; }
+        public string? ServiceType {  get; set; }
     }
 }

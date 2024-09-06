@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationAPI", "src\se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotAPI", "src\services\OcelotAPI\OcelotAPI.csproj", "{F7386F8B-12B4-42B2-827C-1A06E7D06FE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityConnect", "src\services\CommunityConnect\CommunityConnect.csproj", "{B72E2D9B-DB9F-4815-9D2D-0E8F2B6AF181}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{F7386F8B-12B4-42B2-827C-1A06E7D06FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7386F8B-12B4-42B2-827C-1A06E7D06FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7386F8B-12B4-42B2-827C-1A06E7D06FE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B72E2D9B-DB9F-4815-9D2D-0E8F2B6AF181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B72E2D9B-DB9F-4815-9D2D-0E8F2B6AF181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B72E2D9B-DB9F-4815-9D2D-0E8F2B6AF181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B72E2D9B-DB9F-4815-9D2D-0E8F2B6AF181}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -33,6 +39,7 @@ Global
 		{C1BD3E75-65C0-4B2C-8F24-0E45699A1278} = {FE920268-93DB-4D7C-B383-736EE664A820}
 		{44E2A54D-24B1-4342-B941-5543E45D25F2} = {C1BD3E75-65C0-4B2C-8F24-0E45699A1278}
 		{F7386F8B-12B4-42B2-827C-1A06E7D06FE9} = {C1BD3E75-65C0-4B2C-8F24-0E45699A1278}
+		{B72E2D9B-DB9F-4815-9D2D-0E8F2B6AF181} = {C1BD3E75-65C0-4B2C-8F24-0E45699A1278}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57B7C0DF-92FF-4F11-A72D-82966703CCC0}
