@@ -1,5 +1,4 @@
 ﻿using CommunityConnect.DTO;
-using CommunityConnect.Models;
 using Mapster;
 using MediatR;
 using System.Text.Json;
