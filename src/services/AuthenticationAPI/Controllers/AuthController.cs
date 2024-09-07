@@ -1,4 +1,5 @@
 ﻿using AuthenticationAPI.Contracts;
+using AuthenticationAPI.DTO;
 using AuthenticationAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@ namespace AuthenticationAPI.Controllers
     {
         private readonly ILoginRepository _loginRepository;
         private readonly IRegisterRepository _registerRepository;
+        private readonly IResidentRepository _residentRepository;
 
-        public AuthController(ILoginRepository loginRepository, IRegisterRepository registerRepository)
+        public AuthController(ILoginRepository loginRepository, IRegisterRepository registerRepository, IResidentRepository residentRepository)
         {
             _loginRepository = loginRepository;
             _registerRepository = registerRepository;
+            _residentRepository = residentRepository;
         }
 
         [Authorize(Roles = UserRoles.User)]
@@ -55,6 +58,14 @@ namespace AuthenticationAPI.Controllers
         {
             var login = await _loginRepository.Login(model);
             return Ok(login);
+        }
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpGet]
+        [Route("resident")]
+        public async Task<IActionResult> GetAllResidents()
+        {
+            var residents = await _residentRepository.GetAllResidents();
+            return Ok(residents);
         }
     }
 }

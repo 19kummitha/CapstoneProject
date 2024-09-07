@@ -10,6 +10,7 @@
     <PackageReference Include="Carter" Version="8.2.1" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MediatR" Version="12.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
 	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
@@ -17,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Admin\Queries\" />
     <Folder Include="Features\Resident\Queries\" />
   </ItemGroup>
 

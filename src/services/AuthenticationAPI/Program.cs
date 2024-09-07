@@ -19,7 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
 
-
+builder.Services.AddScoped<IResidentRepository, ResidentRepository>();
 builder.Services.AddIdentity<Register, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
