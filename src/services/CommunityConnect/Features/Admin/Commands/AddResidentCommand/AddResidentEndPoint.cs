@@ -21,7 +21,7 @@ namespace CommunityConnect.Features.Admin.Commands.AddResidentCommand
                 return Results.StatusCode(500);
             })
             .WithName("RegisterResident")
-            .WithTags("Customer");
+            .WithTags("Resident");
         }
     }
 
