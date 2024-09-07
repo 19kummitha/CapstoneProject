@@ -73,6 +73,9 @@ namespace AuthenticationAPI.Repository
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
 
 
+            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+
             return new OkObjectResult(new Response { Status = "Success", Message = "User Registration completed:)" });
         }
         public async Task<ActionResult> RegisterService(Register model)
