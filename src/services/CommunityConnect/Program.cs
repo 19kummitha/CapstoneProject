@@ -1,5 +1,7 @@
 using Carter;
 using CommunityConnect.Data;
+using CommunityConnect.Features.Resident.Contracts;
+using CommunityConnect.Features.Resident.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -12,6 +14,7 @@ builder.Services.AddHttpClient("AuthService", client =>
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddCarter();
+builder.Services.AddScoped<IComplaint, ComplaintService>();
 builder.Services.AddDbContext<CommunityDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
