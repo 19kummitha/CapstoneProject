@@ -90,7 +90,7 @@ namespace AuthenticationAPI.Repository
                 UserName = model.UserName,
                 Name = model.Name,
                 FlatNo = "",
-                ServiceType="",
+                ServiceType=model.ServiceType,
                 PhoneNumber= model.PhoneNumber,
             };
             var result = await _userManager.CreateAsync(user, model.PasswordHash);

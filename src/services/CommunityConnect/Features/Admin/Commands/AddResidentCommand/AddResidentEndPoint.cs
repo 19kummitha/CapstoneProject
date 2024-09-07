@@ -16,11 +16,11 @@ namespace CommunityConnect.Features.Admin.Commands.AddResidentCommand
                 var result = await mediator.Send(command);
                 if (result)
                 {
-                    return Results.Ok(new { Message = "Customer registered successfully" });
+                    return Results.Ok(new { Message = "Resident registered successfully" });
                 }
                 return Results.StatusCode(500);
             })
-            .WithName("RegisterCustomer")
+            .WithName("RegisterResident")
             .WithTags("Customer");
         }
     }
