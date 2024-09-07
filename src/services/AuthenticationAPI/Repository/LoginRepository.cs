@@ -1,8 +1,8 @@
-﻿
-using AuthenticationAPI.Contracts;
+﻿using AuthenticationAPI.Contracts;
 using AuthenticationAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -45,7 +45,7 @@ namespace AuthenticationAPI.Repository
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
-
+            
             var authClaims = new List<Claim>
     {
         new Claim(ClaimTypes.Name, user.UserName),
@@ -58,12 +58,13 @@ namespace AuthenticationAPI.Repository
             }
 
             var token = GetToken(authClaims);
-
-            return Results.Ok(new 
+            List<string> rolesList = userRoles.ToList();
+            rolesList.Sort();
+            return Results.Ok(new
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo,
-                roles=userRoles
+                roles = rolesList
             });
         }
 
