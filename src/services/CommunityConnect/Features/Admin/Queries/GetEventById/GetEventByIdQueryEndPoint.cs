@@ -11,16 +11,11 @@ namespace CommunityConnect.Features.Admin.Queries.GetEventById
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/events/get", [Authorize(Roles = "Admin,User")] async (HttpRequest request, IMediator mediator) =>
+            app.MapGet("/events/{eventId}", [Authorize(Roles = "Admin")] async (int eventId, IMediator mediator) =>
             {
-                var command = await request.ReadFromJsonAsync<GetEventByIdQuery>();
+                var query = new GetEventByIdQuery { EventId = eventId };
 
-                if (command == null || command.EventId <= 0)
-                {
-                    return Results.BadRequest(new { Message = "Invalid request data" });
-                }
-
-                var result = await mediator.Send(command);
+                var result = await mediator.Send(query);
 
                 if (result != null)
                 {
