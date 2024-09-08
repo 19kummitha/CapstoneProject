@@ -8,8 +8,15 @@ namespace CommunityConnect.Features.Admin.Commands.DeleteEventCommand
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapDelete("/events", [Authorize(Roles = "Admin")] async (DeleteEventCommand command, IMediator mediator) =>
+            app.MapDelete("/deleteevent", [Authorize(Roles = "Admin")] async (HttpRequest request, IMediator mediator) =>
             {
+                var command = await request.ReadFromJsonAsync<DeleteEventCommand>();
+
+                if (command == null || command.EventId <= 0)
+                {
+                    return Results.BadRequest(new { Message = "Invalid request data" });
+                }
+
                 var result = await mediator.Send(command);
 
                 if (result)
@@ -17,7 +24,7 @@ namespace CommunityConnect.Features.Admin.Commands.DeleteEventCommand
                     return Results.Ok(new { Message = "Event deleted successfully" });
                 }
 
-                return Results.NotFound(new { Message = "Event not found " });
+                return Results.NotFound(new { Message = "Event not found" });
             })
             .WithName("DeleteEvent")
             .WithTags("Events");
