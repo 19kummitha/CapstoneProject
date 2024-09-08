@@ -51,9 +51,19 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole("User");
     });
 });
+const string policyName = "CorsPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: policyName, builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapCarter();
-
+app.UseCors(policyName);
 app.Run();
