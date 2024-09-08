@@ -17,7 +17,7 @@ namespace CommunityConnect.Features.Admin.Commands.DeleteEventCommand
                     return Results.Ok(new { Message = "Event deleted successfully" });
                 }
 
-                return Results.NotFound(new { Message = "Event not found" });
+                return Results.NotFound(new { Message = "Event not found " });
             })
             .WithName("DeleteEvent")
             .WithTags("Events");
