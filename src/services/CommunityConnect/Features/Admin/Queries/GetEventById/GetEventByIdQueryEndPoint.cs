@@ -34,4 +34,3 @@ namespace CommunityConnect.Features.Admin.Queries.GetEventById
         }
     }
     }
-}
