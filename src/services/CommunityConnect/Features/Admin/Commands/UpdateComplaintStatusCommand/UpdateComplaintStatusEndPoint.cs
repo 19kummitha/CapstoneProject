@@ -1,4 +1,5 @@
 ﻿using Carter;
+using CommunityConnect.Data;
 using CommunityConnect.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,10 +12,11 @@ namespace CommunityConnect.Features.Admin.Commands.UpdateComplaintStatusCommand
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPut("/complaints/{complaintId}/status", async (long complaintId, [FromBody] int status, IMediator mediator, [FromServices] IAuthorizationService authorizationService, HttpContext httpContext) =>
+            app.MapPut("/complaints/{complaintId}/status", async (long complaintId, [FromBody] int status, IMediator mediator, [FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] CommunityDbContext dbContext) =>
             {
-                var user = httpContext.User;
+                var user = httpContextAccessor.HttpContext.User;
                 var role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+                var residentId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
                 // Restrict access for service providers
                 if (role == "serviceprovider")
@@ -22,24 +24,31 @@ namespace CommunityConnect.Features.Admin.Commands.UpdateComplaintStatusCommand
                     return Results.Forbid();
                 }
 
-                // Authorize user (Admin or regular user)
-                var authorizationResult = await authorizationService.AuthorizeAsync(user, null, "UserOrAdmin");
-                if (authorizationResult.Succeeded)
+                // Check if the user is an admin or the owner of the complaint
+                var complaint = await dbContext.Complaints.FindAsync(complaintId);
+
+                if (complaint == null)
+                {
+                    return Results.NotFound(new { Message = "Complaint not found" });
+                }
+
+                // Allow update only if the user is admin or the owner of the complaint (resident)
+                if (role == "Admin" || complaint.ResidentId == residentId)
                 {
                     var command = new UpdateComplaintStatusCommand
                     {
                         ComplaintId = complaintId,
                         Status = status
                     };
+
                     var result = await mediator.Send(command);
                     return result ? Results.Ok(new { Message = "Complaint status updated successfully" }) : Results.StatusCode(500);
                 }
 
                 return Results.Forbid();
             })
-            .WithName("UpdateComplaintStatus")
-            .WithTags("Complaints");
-
+             .WithName("UpdateComplaintStatus")
+             .WithTags("Complaints");
         }
 
     }
