@@ -1,7 +1,5 @@
 using Carter;
 using CommunityConnect.Data;
-using CommunityConnect.Features.Resident.Contracts;
-using CommunityConnect.Features.Resident.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +16,6 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddCarter();
-builder.Services.AddScoped<IComplaint, ComplaintService>();
 builder.Services.AddDbContext<CommunityDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
@@ -47,6 +44,12 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+    options.AddPolicy("ServiceProviderOnly", policy => policy.RequireRole("ServiceProvider"));
+    options.AddPolicy("UserOrAdmin", policy =>
+    {
+        policy.RequireRole("Admin");
+        policy.RequireRole("User");
+    });
 });
 var app = builder.Build();
 app.UseAuthentication();

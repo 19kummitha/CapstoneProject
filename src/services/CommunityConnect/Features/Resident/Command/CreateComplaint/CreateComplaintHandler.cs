@@ -1,5 +1,4 @@
 ﻿using CommunityConnect.Data;
-using CommunityConnect.Features.Resident.Contracts;
 using CommunityConnect.Models;
 using MediatR;
 using System.Security.Claims;

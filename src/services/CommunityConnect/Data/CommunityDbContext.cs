@@ -10,7 +10,7 @@ namespace CommunityConnect.Data
         }
 
         public DbSet<Complaint> Complaints { get; set; }
-
+        public DbSet<RequestService> RequestServices { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Complaint>()
