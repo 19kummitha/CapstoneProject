@@ -41,11 +41,14 @@ namespace CommunityConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("ResidentId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("ResidentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -53,42 +56,7 @@ namespace CommunityConnect.Migrations
 
                     b.HasKey("ComplaintId");
 
-                    b.HasIndex("ResidentId");
-
                     b.ToTable("Complaints");
-                });
-
-            modelBuilder.Entity("CommunityConnect.Models.Resident", b =>
-                {
-                    b.Property<long>("ResidentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ResidentId"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ResidentId");
-
-                    b.ToTable("Residents");
-                });
-
-            modelBuilder.Entity("CommunityConnect.Models.Complaint", b =>
-                {
-                    b.HasOne("CommunityConnect.Models.Resident", "Resident")
-                        .WithMany("Complaints")
-                        .HasForeignKey("ResidentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Resident");
-                });
-
-            modelBuilder.Entity("CommunityConnect.Models.Resident", b =>
-                {
-                    b.Navigation("Complaints");
                 });
 #pragma warning restore 612, 618
         }

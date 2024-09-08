@@ -14,12 +14,14 @@ namespace AuthenticationAPI.Controllers
         private readonly ILoginRepository _loginRepository;
         private readonly IRegisterRepository _registerRepository;
         private readonly IResidentRepository _residentRepository;
+        private readonly IServiceProviderRepository _serviceProviderRepository;
 
-        public AuthController(ILoginRepository loginRepository, IRegisterRepository registerRepository, IResidentRepository residentRepository)
+        public AuthController(ILoginRepository loginRepository, IRegisterRepository registerRepository, IResidentRepository residentRepository, IServiceProviderRepository serviceProviderRepository)
         {
             _loginRepository = loginRepository;
             _registerRepository = registerRepository;
             _residentRepository = residentRepository;
+            _serviceProviderRepository = serviceProviderRepository;
         }
 
         [Authorize(Roles = UserRoles.User)]
@@ -59,13 +61,19 @@ namespace AuthenticationAPI.Controllers
             var login = await _loginRepository.Login(model);
             return Ok(login);
         }
-        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet]
         [Route("resident")]
         public async Task<IActionResult> GetAllResidents()
         {
             var residents = await _residentRepository.GetAllResidents();
             return Ok(residents);
+        }
+        [HttpGet]
+        [Route("service-provider")]
+        public async Task<IActionResult> GetAllServiceProviders()
+        {
+            var serviceProvider = await _serviceProviderRepository.GetAllServices();
+            return Ok(serviceProvider);
         }
     }
 }

@@ -17,8 +17,4 @@
 	  <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.7.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Resident\Queries\" />
-  </ItemGroup>
-
 </Project>

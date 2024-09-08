@@ -1,5 +1,6 @@
 ﻿using Carter;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
@@ -9,26 +10,17 @@ namespace CommunityConnect.Features.Resident.Command.CreateComplaint
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/create-complaint", async (HttpContext httpContext, IMediator mediator) =>
+            app.MapPost("/complaint", [Authorize(Roles ="User")] async (CreateComplaintCommand command, IMediator mediator) =>
             {
-                var command = await httpContext.Request.ReadFromJsonAsync<CreateComplaintCommand>();
-
-                if (command == null)
-                {
-                    return Results.BadRequest("Invalid complaint data.");
-                }
-
                 var result = await mediator.Send(command);
-
                 if (result)
                 {
-                    return Results.Ok(new { Message = "Complaint created successfully." });
+                    return Results.Ok(new { Message = "Complaint added successfully" });
                 }
-
-                return Results.Problem("An error occurred while creating the complaint."); // Use Results.Problem for error messages
+                return Results.BadRequest(new { Message = "Failed to add complaint" });
             })
             .WithName("CreateComplaint")
-            .WithTags("Complaint");
+            .WithTags("Complaints");
         }
     }
 }

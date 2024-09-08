@@ -1,6 +1,8 @@
-﻿using CommunityConnect.Features.Resident.Contracts;
+﻿using CommunityConnect.Data;
+using CommunityConnect.Features.Resident.Contracts;
 using CommunityConnect.Models;
 using MediatR;
+using System.Security.Claims;
 
 namespace CommunityConnect.Features.Resident.Command.CreateComplaint
 {
@@ -10,37 +12,39 @@ namespace CommunityConnect.Features.Resident.Command.CreateComplaint
         public string FlatNo { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public long ResidentId { get; set; }
     }
     public class CreateComplaintHandler : IRequestHandler<CreateComplaintCommand, bool>
     {
-        private readonly IComplaint _complaintService;
+        private readonly CommunityDbContext _dbContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CreateComplaintHandler(IComplaint complaintService)
+        public CreateComplaintHandler(CommunityDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
-            _complaintService = complaintService;
+            _dbContext = dbContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<bool> Handle(CreateComplaintCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                await _complaintService.CreateComplaintAsync(new Complaint
-                {
-                    PersonName = request.PersonName,
-                    FlatNo = request.FlatNo,
-                    Title = request.Title,
-                    Description = request.Description,
-                    ResidentId = request.ResidentId
-                });
+            // Get ResidentId from JWT claims
+            var residentId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                return true;
-            }
-            catch
-            {
-                // Log exception or handle error as needed
+            if (string.IsNullOrEmpty(residentId))
                 return false;
-            }
+
+            var complaint = new Complaint
+            {
+                PersonName = request.PersonName,
+                FlatNo = request.FlatNo,
+                Title = request.Title,
+                Description = request.Description,
+                ResidentId = residentId  ,
+                Status=ComplaintStatus.OPEN
+            };
+
+            _dbContext.Complaints.Add(complaint);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

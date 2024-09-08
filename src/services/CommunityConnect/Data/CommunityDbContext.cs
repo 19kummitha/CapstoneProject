@@ -10,14 +10,12 @@ namespace CommunityConnect.Data
         }
 
         public DbSet<Complaint> Complaints { get; set; }
-        public DbSet<Resident> Residents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Complaint>()
-                .HasOne(c => c.Resident)
-                .WithMany(r => r.Complaints)
-                .HasForeignKey(c => c.ResidentId);
+                .Property(c => c.Status)
+                .HasDefaultValue(ComplaintStatus.OPEN);
         }
     }
 }

@@ -11,19 +11,6 @@ namespace CommunityConnect.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Residents",
-                columns: table => new
-                {
-                    ResidentId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Residents", x => x.ResidentId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Complaints",
                 columns: table => new
                 {
@@ -33,24 +20,13 @@ namespace CommunityConnect.Migrations
                     FlatNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    ResidentId = table.Column<long>(type: "bigint", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    ResidentId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Complaints", x => x.ComplaintId);
-                    table.ForeignKey(
-                        name: "FK_Complaints_Residents_ResidentId",
-                        column: x => x.ResidentId,
-                        principalTable: "Residents",
-                        principalColumn: "ResidentId",
-                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Complaints_ResidentId",
-                table: "Complaints",
-                column: "ResidentId");
         }
 
         /// <inheritdoc />
@@ -58,9 +34,6 @@ namespace CommunityConnect.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Complaints");
-
-            migrationBuilder.DropTable(
-                name: "Residents");
         }
     }
 }

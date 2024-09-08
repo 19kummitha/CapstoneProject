@@ -20,13 +20,22 @@ namespace CommunityConnect.Features.Admin.Queries.GetAllResidentsQuery
     public class GetAllResidentsHandler : IRequestHandler<GetAllResidentsQuery, GetAllResidentsResponse>
     {
         private readonly HttpClient _httpClient;
-        public GetAllResidentsHandler(IHttpClientFactory httpClientFactory)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public GetAllResidentsHandler(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClientFactory.CreateClient("AuthService");
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<GetAllResidentsResponse> Handle(GetAllResidentsQuery request, CancellationToken cancellationToken)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "your-jwt-token");
+            var authHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
+            if(string.IsNullOrEmpty(authHeader))
+            {
+                throw new HttpRequestException("Authorization header is missing");
+            }
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authHeader.Replace("Bearear", ""));
+
+            
             var response = await _httpClient.GetAsync("api/auth/resident", cancellationToken);
 
             if (response.IsSuccessStatusCode)

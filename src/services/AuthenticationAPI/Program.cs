@@ -37,7 +37,7 @@ builder.Services.AddIdentity<Register, IdentityRole>()
 
 builder.Services.AddScoped<IRegisterRepository, RegisterRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-
+builder.Services.AddScoped<IServiceProviderRepository, ServiceProviderRepository>();
 
 builder.Services.AddAuthentication(options =>
 {
