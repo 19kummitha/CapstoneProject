@@ -75,5 +75,27 @@ namespace AuthenticationAPI.Controllers
             var serviceProvider = await _serviceProviderRepository.GetAllServices();
             return Ok(serviceProvider);
         }
+        [HttpDelete]
+        [Route("delete-resident/{id}")]
+        public async Task<IActionResult> DeleteResident([FromRoute] string id)
+        {
+            var result=await _residentRepository.DeleteResident(id);
+            if(result)
+            {
+                return Ok(new { Message = "Resident Deleted Successfully" });
+            }
+            return NotFound(new { Message = "Resident Not Found" });
+        }
+        [HttpDelete]
+        [Route("delete-ServiceProvider/{id}")]
+        public async Task<IActionResult> DeleteSeviceProvider([FromRoute] string id)
+        {
+            var result = await _serviceProviderRepository.DeleteSeviceProvider(id);
+            if (result)
+            {
+                return Ok(new { Message = "ServiceProvider Deleted Successfully" });
+            }
+            return NotFound(new { Message = "ServiceProvider Not Found" });
+        }
     }
 }

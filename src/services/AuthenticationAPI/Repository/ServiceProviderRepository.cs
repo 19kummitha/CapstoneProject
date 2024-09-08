@@ -39,6 +39,16 @@ namespace AuthenticationAPI.Repository
             return serviceDto;
         }
 
-        
+
+        public async Task<bool> DeleteSeviceProvider(string id)
+        {
+            var serviceProvider = await _userManager.FindByIdAsync(id);
+            if (serviceProvider == null)
+            {
+                return false;
+            }
+            var result = await _userManager.DeleteAsync(serviceProvider);
+            return true;
+        }
     }
 }

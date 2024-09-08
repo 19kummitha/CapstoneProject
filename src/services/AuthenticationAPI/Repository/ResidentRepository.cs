@@ -15,6 +15,18 @@ namespace AuthenticationAPI.Repository
             _userManager = userManager;
             _roleManager = roleManager;
         }
+
+        public async Task<bool> DeleteResident(string id)
+        {
+            var resident=await _userManager.FindByIdAsync(id); 
+            if(resident == null)
+            {
+                return false;
+            }
+            var result=await _userManager.DeleteAsync(resident);
+            return true;
+        }
+
         public async Task<IEnumerable<GetResidentDto>> GetAllResidents()
         {
 
@@ -38,5 +50,6 @@ namespace AuthenticationAPI.Repository
             }).ToList();
             return residentsDto;
         }
+
     }
 }
