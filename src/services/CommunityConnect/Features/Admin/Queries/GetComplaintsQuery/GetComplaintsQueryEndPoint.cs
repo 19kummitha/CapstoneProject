@@ -7,7 +7,7 @@ namespace CommunityConnect.Features.Admin.Queries.GetComplaintsQuery
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/admin/complaints/{residentId}", async (string? residentId, IMediator mediator) =>
+            app.MapGet("/admin/complaints/{residentId?}", async (string? residentId, IMediator mediator) =>
             {
                 var result = await mediator.Send(new GetAllComplaintsQuery { ResidentId = residentId });
                 return result != null ? Results.Ok(result) : Results.NotFound();

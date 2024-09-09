@@ -7,9 +7,8 @@ namespace CommunityConnect.Features.Admin.Commands.AddEventCommand
 {
     public class CreateEventCommand : IRequest<bool>
     {
-        public string Title { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public string Name { get; set; }
+        public DateOnly date { get; set; }
         public string Description { get; set; }
     }
     public class AddEventCommandHandler:IRequestHandler<CreateEventCommand,bool>
@@ -25,9 +24,8 @@ namespace CommunityConnect.Features.Admin.Commands.AddEventCommand
         {
             var newEvent = new Event
             {
-                Title = request.Title,
-                Start = request.Start,
-                End = request.End,
+                Name= request.Name,
+                date= request.date,
                 Description = request.Description
             };
 

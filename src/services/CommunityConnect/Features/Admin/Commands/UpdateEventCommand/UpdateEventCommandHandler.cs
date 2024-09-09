@@ -6,9 +6,8 @@ namespace CommunityConnect.Features.Admin.Commands.UpdateEventCommand
     public class UpdateEventCommand : IRequest<bool>
     {
         public int EventId { get; set; }
-        public string Title { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public string Name { get; set; }
+        public DateOnly date { get; set; }
         public string Description { get; set; }
     }
     public class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand, bool>
@@ -29,10 +28,9 @@ namespace CommunityConnect.Features.Admin.Commands.UpdateEventCommand
                 return false;
             }
 
-            // Update event details
-            eventToUpdate.Title = request.Title;
-            eventToUpdate.Start = request.Start;
-            eventToUpdate.End = request.End;
+
+            eventToUpdate.Name = request.Name;
+            eventToUpdate.date = request.date;
             eventToUpdate.Description = request.Description;
 
             _context.Events.Update(eventToUpdate);
