@@ -7,39 +7,44 @@ using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 var jwtSettings = builder.Configuration.GetSection("JWT");
+
+
 builder.Services.AddHttpClient("AuthService", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5001/");
 });
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddCarter();
 builder.Services.AddDbContext<CommunityDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSettings["ValidIssuer"],  // Your issuer
-                ValidAudience = jwtSettings["ValidAudience"],  // Your audience
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]))  // Secret key
-            };
-        });
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["ValidIssuer"],  
+        ValidAudience = jwtSettings["ValidAudience"],  
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]))  // Secret key
+    };
+});
 
-// Add authorization policies
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
@@ -51,6 +56,8 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole("User");
     });
 });
+
+
 const string policyName = "CorsPolicy";
 builder.Services.AddCors(options =>
 {
@@ -61,9 +68,17 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
+
 var app = builder.Build();
+
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors(policyName);  
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapCarter();
-app.UseCors(policyName);
+
 app.Run();
