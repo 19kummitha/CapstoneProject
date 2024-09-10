@@ -8,7 +8,7 @@ namespace CommunityConnect.Features.Admin.Queries.GetAllPostsQuery
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/getposts", [Authorize(Roles = "Admin,User")] async (IMediator mediator) =>
+            app.MapGet("/getposts", [Authorize(Roles = "Admin,User,ServiceProvider")] async (IMediator mediator) =>
             {
                 var posts = await mediator.Send(new GetAllPostsQuery());
 
