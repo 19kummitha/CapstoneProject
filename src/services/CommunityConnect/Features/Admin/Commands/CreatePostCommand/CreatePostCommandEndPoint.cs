@@ -29,4 +29,4 @@ namespace CommunityConnect.Features.Admin.Commands.CreatePostCommand
             .WithTags("Posts");
         }
     }
-    }
+}

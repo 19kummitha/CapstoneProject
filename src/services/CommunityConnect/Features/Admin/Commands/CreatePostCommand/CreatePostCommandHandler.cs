@@ -24,11 +24,13 @@ namespace CommunityConnect.Features.Admin.Commands.CreatePostCommand
         }
         public async Task<bool> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
+            var mediaUrl = request.Media != null ? await SaveMediaAsync(request.Media, cancellationToken) : null;
+
             var newPost = new Post
             {
                 Title = request.Title,
                 Content = request.Content,
-                MediaUrl = request.Media != null ? await SaveMediaAsync(request.Media, cancellationToken) : null
+                MediaUrl = mediaUrl
             };
 
             _dbContext.Posts.Add(newPost);
@@ -43,15 +45,18 @@ namespace CommunityConnect.Features.Admin.Commands.CreatePostCommand
                 return null;
 
             var fileName = Path.GetFileName(media.FileName);
-            var filePath = Path.Combine(_hostEnvironment.ContentRootPath, "Uploads", fileName);
+            var uploadsFolder = Path.Combine(_hostEnvironment.ContentRootPath, "Uploads");
+            var filePath = Path.Combine(uploadsFolder, fileName);
 
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            Directory.CreateDirectory(uploadsFolder);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await media.CopyToAsync(stream, cancellationToken);
             }
-            return filePath;
+
+            var relativeUrl = $"/uploads/{fileName}";
+            return relativeUrl;
         }
     }
 }
