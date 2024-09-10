@@ -8,7 +8,7 @@ namespace CommunityConnect.Features.Admin.Queries.GetAllServiceProvidersQuery
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/ServiceProvider", [Authorize(Roles = "Admin")] async (IMediator mediator) =>
+            app.MapGet("/ServiceProvider", [Authorize(Roles = "Admin,User")] async (IMediator mediator) =>
             {
                 var residents = await mediator.Send(new GetAllServiceProviderQuery());
                 if (residents != null)
