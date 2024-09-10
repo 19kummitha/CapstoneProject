@@ -8,7 +8,7 @@ namespace CommunityConnect.Features.Resident.Command.CreateRequestService
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/service/request", [Authorize(Roles = "User")] async (CreateRequestCommand command, IMediator mediator) =>
+            app.MapPost("/service/request", [Authorize(Roles = "User,Admin")] async (CreateRequestCommand command, IMediator mediator) =>
             {
                 var result = await mediator.Send(command);
                 if (result)
