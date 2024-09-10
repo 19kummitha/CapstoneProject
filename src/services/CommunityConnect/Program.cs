@@ -51,10 +51,11 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
     options.AddPolicy("ServiceProviderOnly", policy => policy.RequireRole("ServiceProvider"));
-    options.AddPolicy("UserOrAdmin", policy =>
+    options.AddPolicy("UserOrAdminOrServiceProvider", policy =>
     {
         policy.RequireRole("Admin");
         policy.RequireRole("User");
+        policy.RequireRole("ServiceProvider");
     });
 });
 
