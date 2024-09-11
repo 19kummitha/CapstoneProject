@@ -23,7 +23,6 @@ namespace CommunityConnect.Features.Admin.Commands.DeleteComplaintCommand
 
             if (complaint == null)
             {
-                // Complaint not found
                 return false;
             }
 

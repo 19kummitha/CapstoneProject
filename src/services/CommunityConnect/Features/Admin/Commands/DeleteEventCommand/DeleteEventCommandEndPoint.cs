@@ -1,4 +1,5 @@
 ﻿using Carter;
+using CommunityConnect.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 
@@ -8,16 +9,9 @@ namespace CommunityConnect.Features.Admin.Commands.DeleteEventCommand
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapDelete("/deleteevent", [Authorize(Roles = "Admin")] async (HttpRequest request, IMediator mediator) =>
+            app.MapDelete("/deleteevent/{eventId}", [Authorize(Roles = "Admin")] async (int eventId,HttpRequest request, IMediator mediator) =>
             {
-                var command = await request.ReadFromJsonAsync<DeleteEventCommand>();
-
-                if (command == null || command.EventId <= 0)
-                {
-                    return Results.BadRequest(new { Message = "Invalid request data" });
-                }
-
-                var result = await mediator.Send(command);
+                var result = await mediator.Send(new DeleteEventCommand { EventId = eventId });
 
                 if (result)
                 {

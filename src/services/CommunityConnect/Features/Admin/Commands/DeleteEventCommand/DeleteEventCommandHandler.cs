@@ -1,5 +1,6 @@
 ﻿using CommunityConnect.Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommunityConnect.Features.Admin.Commands.DeleteEventCommand
 {
@@ -18,16 +19,16 @@ namespace CommunityConnect.Features.Admin.Commands.DeleteEventCommand
 
         public async Task<bool> Handle(DeleteEventCommand request, CancellationToken cancellationToken)
         {
-            var eventToDelete = await _context.Events.FindAsync(request.EventId);
+            var eventTodelete = await _context.Events.FirstOrDefaultAsync(c => c.EventId == request.EventId, cancellationToken);
 
-            if (eventToDelete == null)
+            if (eventTodelete == null)
             {
                 return false;
             }
 
-            _context.Events.Remove(eventToDelete);
-            var result = await _context.SaveChangesAsync(cancellationToken);
-            return result > 0;
+            _context.Events.Remove(eventTodelete);
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }
