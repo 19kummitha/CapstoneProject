@@ -24,7 +24,6 @@ namespace CommunityConnect.Features.Admin.Commands.UpdateEventCommand
 
             if (eventToUpdate == null)
             {
-                // Event not found
                 return false;
             }
 
