@@ -1,6 +1,8 @@
 ﻿using CommunityConnect.Data;
+using CommunityConnect.Hubs;
 using CommunityConnect.Models;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityConnect.Features.Admin.Commands.AddEventCommand
@@ -14,10 +16,12 @@ namespace CommunityConnect.Features.Admin.Commands.AddEventCommand
     public class AddEventCommandHandler:IRequestHandler<CreateEventCommand,bool>
     {
         private readonly CommunityDbContext _dbcontext;
+        private readonly IHubContext<EventNotificationHub> _hubcontext;
 
-        public AddEventCommandHandler(CommunityDbContext context)
+        public AddEventCommandHandler(CommunityDbContext context,IHubContext<EventNotificationHub> hubcontext)
         {
             _dbcontext = context;
+            _hubcontext = hubcontext;
         }
 
         public async Task<bool> Handle(CreateEventCommand request, CancellationToken cancellationToken)
@@ -31,7 +35,7 @@ namespace CommunityConnect.Features.Admin.Commands.AddEventCommand
 
             _dbcontext.Events.Add(newEvent);
             await _dbcontext.SaveChangesAsync(cancellationToken);
-
+            await _hubcontext.Clients.All.SendAsync("ReceiveEventNotification", $"New event added: {newEvent.Name}");
             return true;
         }
     }

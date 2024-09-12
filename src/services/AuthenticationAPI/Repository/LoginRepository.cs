@@ -25,7 +25,6 @@ namespace AuthenticationAPI.Repository
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user == null)
             {
-                // User not found
                 return Results.NotFound(new 
                 {
                     Status = "Error",
@@ -36,7 +35,6 @@ namespace AuthenticationAPI.Repository
             bool isPasswordValid = await _userManager.CheckPasswordAsync(user, model.Password);
             if (!isPasswordValid)
             {
-                // Invalid password
                 return Results.BadRequest (new 
                 {
                     Status = "Error",

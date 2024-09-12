@@ -1,5 +1,6 @@
 using Carter;
 using CommunityConnect.Data;
+using CommunityConnect.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -25,7 +26,7 @@ builder.Services.AddDbContext<CommunityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
 
-
+builder.Services.AddSignalR();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -82,7 +83,8 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/uploads"
 });
 app.UseRouting();
-app.UseCors(policyName);  
+app.UseCors(policyName);
+app.MapHub<EventNotificationHub>("/eventNotificationHub");
 app.UseAuthentication();
 app.UseAuthorization();
 

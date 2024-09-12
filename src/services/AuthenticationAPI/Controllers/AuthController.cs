@@ -59,6 +59,7 @@ namespace AuthenticationAPI.Controllers
         public async Task<IActionResult> Login([FromBody] Login model)
         {
             var login = await _loginRepository.Login(model);
+
             return Ok(login);
         }
         [HttpGet]
